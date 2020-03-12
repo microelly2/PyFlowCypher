@@ -57,12 +57,21 @@ class Cypher_Session(CypherNodeBase):
         a=self.createInputPin('driver', 'FCobjPin')
         
                 
-        a = self.createInputPin("command", 'StringPin',"MATCH (a)-[r]->(b) RETURN a,b")
+        #a = self.createInputPin("command", 'StringPin',"MATCH (a)-[r]->(b) RETURN a,b")
+        
+        
 #        self.process = self.createInputPin('process', 'Boolean')
         a=self.createInputPin('data', 'StringPin',structure=StructureType.Array)
-        a=self.createInputPin('useData', 'BoolPin')
-
+        ab=self.createInputPin('useData', 'BoolPin')
         
+
+        a=self.createInputPin('cypher', 'StringPin')    
+        a.setInputWidgetVariant("MultilineWidget")
+
+        ab=self.createInputPin('boltresultOnly', 'BoolPin')
+        self.inExec = self.createInputPin('stop', 'ExecPin', None, self.stop)
+
+       
 #        a=self.createOutputPin('resultObject', 'FCobjPin')
 #        a=self.createOutputPin('resultString', 'String')
         #a=self.createOutputPin('ids', 'IntPin',structure=StructureType.Array)
@@ -74,6 +83,8 @@ class Cypher_Session(CypherNodeBase):
         a=self.createOutputPin('outDict', 'AnyPin',structure=StructureType.Dict)
         a.enableOptions(PinOptions.AllowAny)
         a.setData({})
+ 
+        a=self.createOutputPin('boltResult', 'FCobjPin')
         
         
         #FCobjPin
@@ -168,6 +179,34 @@ class Cypher_Connect(CypherNodeBase):
         return 'Development'
 
 
+class Cypher_ResultToy(CypherNodeBase):
+    '''
+    '''
+
+    def __init__(self, name="MyToy"):
+
+        super(self.__class__, self).__init__(name)
+        self.inExec = self.createInputPin(DEFAULT_IN_EXEC_NAME, 'ExecPin', None, self.compute)
+        self.outExec = self.createOutputPin(DEFAULT_OUT_EXEC_NAME, 'ExecPin')
+        a=self.createInputPin('bolTResult', 'FCobjPin')
+        a=self.createInputPin('mode', 'StringPin')
+        a=self.createOutputPin('outString', 'StringPin')
+        
+        #a=self.createOutputPin('outList', 'AnyPin',structure=StructureType.Array)
+        #a.setData([])
+        #a=self.createOutputPin('outDict', 'AnyPin',structure=StructureType.Dict)
+        #a.setData({})
+        
+
+    @staticmethod
+    def description():
+        return Cypher_Connect.__doc__
+
+    @staticmethod
+    def category():
+        return 'Development'
+
+
 
 
 
@@ -182,6 +221,7 @@ def nodelist():
    Cypher_Session,
    Cypher_LoadCSV,
    Cypher_Connect,
+   Cypher_ResultToy,
    
  
    
