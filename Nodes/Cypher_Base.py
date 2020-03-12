@@ -31,9 +31,16 @@ class CypherNodeBase(NodeBase):
             
             say(self.__class__.category())
         
-        import nodeeditor.cypher_dev_all
-        reload(nodeeditor.cypher_dev_all)
-        a="nodeeditor.cypher_dev_all.{}.run_{}(self)".format(self.__class__.category(),self.__class__.__name__)
+        #import nodeeditor.cypher_dev_all
+        #reload(nodeeditor.cypher_dev_all)
+        import PyFlow.Packages.PyFlowCypher.Nodes.cypher_dev_all
+        #reload(nodeeditor.cypher_dev_all)
+        reload(PyFlow.Packages.PyFlowCypher.Nodes.cypher_dev_all)
+        import PyFlow.Packages.PyFlowCypher.Nodes.cypher_dev_all as cypher_dev_all
+        #a="nodeeditor.cypher_dev_all.{}.run_{}(self)".format(self.__class__.category(),self.__class__.__name__)
+        
+        a="cypher_dev_all.{}.run_{}(self)".format(self.__class__.category(),self.__class__.__name__)
+        
         a=eval(a)
 
         if self._debug: 
